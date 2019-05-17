@@ -18,6 +18,7 @@ app.controller('AppCtrl', function($http, $scope) {
 		});
 	};
 	getUser();
+	
 	var goToClient = function() {
 		$http.get('/goToClient').success(function(res) {
 			$scope.user = null;
