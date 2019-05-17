@@ -26,7 +26,7 @@ app.controller('AppCtrl', function($http, $scope) {
 			console.log("Logout error : ", error);
 		});
 	};
-	goToClient();
+	goToClient(); 
  
 	// method for logout
 	$scope.logout = function() {
