@@ -18,6 +18,14 @@ app.controller('AppCtrl', function($http, $scope) {
 		});
 	};
 	getUser();
+	var goToClient = function() {
+		$http.get('/goToClient').success(function(res) {
+			$scope.user = null;
+		}).error(function(error) {
+			console.log("Logout error : ", error);
+		});
+	};
+	goToClient();
  
 	// method for logout
 	$scope.logout = function() {
