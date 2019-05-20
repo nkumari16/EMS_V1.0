@@ -15,12 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+
 public class UserRestController {
+	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping("/user")
 	public Principal user(Principal principal) {
 		System.out.println("user.............") ;
 		return principal;
+	}
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping("/login")
+	public void login( ) {
+		System.out.println("login.............") ;
 	}
 //	@RequestMapping("/goToClient")
 //	public String login( ) {
@@ -30,7 +36,7 @@ public class UserRestController {
 	@RequestMapping(value = "/goToClient", method = RequestMethod.GET)
 	public String method() {
 		System.out.println("goToClient.............") ;
-	    return "forward:/index.html";
+	    return "forward:http://localhost:4200/index.html";
 	}
 	@RequestMapping("/logout")
 	public String logoutPage () {

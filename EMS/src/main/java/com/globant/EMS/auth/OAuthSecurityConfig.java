@@ -88,7 +88,7 @@ public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http
+		http.cors().and()
 				// starts authorizing configurations
 				.authorizeRequests()
 				// ignore the "/" and "/index.html"
