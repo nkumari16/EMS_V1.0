@@ -3,6 +3,7 @@ package com.globant.EMS.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,9 +35,9 @@ public class User implements Serializable {
 
 	private int mobile;
 
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "roleId", referencedColumnName = "roleId")
-	private Role roleId;
+	private Role role;
 
 	private String username;
 
@@ -98,12 +99,12 @@ public class User implements Serializable {
 		this.department = department;
 	}
 
-	public Role getRoleId() {
-		return roleId;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoleId(Role roleId) {
-		this.roleId = roleId;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	

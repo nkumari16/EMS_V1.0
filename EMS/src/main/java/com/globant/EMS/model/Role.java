@@ -11,9 +11,9 @@ public class Role {
 	@Id
 	private int roleId;
 	
-	@OneToOne
-	@JoinColumn(name = "userId", referencedColumnName = "userId")
-	private User userId;
+//	@OneToOne
+//	@JoinColumn(name = "userId", referencedColumnName = "userId")
+//	private User userId;
 	
 	private String roleName;
 

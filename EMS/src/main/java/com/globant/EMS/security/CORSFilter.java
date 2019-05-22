@@ -1,4 +1,4 @@
-package com.gloabnt.EMS.security;
+package com.globant.EMS.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

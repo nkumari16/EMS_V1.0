@@ -5,9 +5,13 @@ package com.globant.EMS.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +35,9 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
  *
  */
 @Configurable
+//@Configuration
 @EnableWebSecurity
+//@EnableOAuth2Sso
 @Order
 public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -114,14 +120,22 @@ public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-	protected void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		System.out.println("in client config");
-        clients
-            .inMemory()
-                .withClient("first-client")
-                .secret(passwordEncoder().encode("noonewilleverguess"))
-                .scopes("resource:read")
-                .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://localhost:4200/");
+//	protected void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//		System.out.println("in client config");
+//        clients
+//            .inMemory()
+//                .withClient("first-client")
+//                .secret(passwordEncoder().encode("noonewilleverguess"))
+//                .scopes("resource:read")
+//                .authorizedGrantTypes("authorization_code")
+//                .redirectUris("http://localhost:4200/");
+//    }
+	@Bean
+    public PrincipalExtractor githubPrincipalExtractor() {
+        return new GooglePrincipalExtractor();
+    }
+	@Bean
+    public AuthoritiesExtractor googleAuthoritiesExtractor() {
+        return new GoogleAuthoritiesExtractor();
     }
 }
