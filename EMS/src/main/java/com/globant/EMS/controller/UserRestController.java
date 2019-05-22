@@ -34,13 +34,14 @@ public class UserRestController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/user")
 	public Principal user(Principal principal) {
-		System.out.println("user............." + principal.getName());
-		User authenticatedUser = userRepository.findByUsername(principal.getName());
+//		System.out.println("user............." + principal.getName());
+		OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
+		Authentication authentication = oAuth2Authentication.getUserAuthentication();
+		Map<String, String> details = new LinkedHashMap<>();
+		details = (Map<String, String>) authentication.getDetails();
+		User authenticatedUser = userRepository.findByUserEmail(details.get("email"));
 		if (authenticatedUser == null) {
-			OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
-			Authentication authentication = oAuth2Authentication.getUserAuthentication();
-			Map<String, String> details = new LinkedHashMap<>();
-			details = (Map<String, String>) authentication.getDetails();
+			
 			Map<String, String> map = new LinkedHashMap<>();
 			map.put("email", details.get("email"));
 
@@ -51,25 +52,33 @@ public class UserRestController {
 			Role role = new Role();
 			role.setRoleId(1);
 			role.setRoleName("Admin");
+			role.setUser(user);
+			Role role2 = new Role();
+			role2.setRoleId(2);
+			role2.setUser(user);
+			role2.setRoleName("Employee");
 
-			user.setRole(role);
+			List<Role> roles=new ArrayList<Role>();
+			roles.add(role);
+			roles.add(role2);
+			user.setRoles(roles);
 			userRepository.save(user);
 		}
 		
 		return principal;
 	}
-	@RequestMapping("/roles")
-	public List<Role> roles() {
-		System.out.println("roles.............");
-		List<Role> roles=new ArrayList<Role>();
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
-		String auth =  (String) authentication.getPrincipal();
-		System.out.println("currentPrincipalName---" + currentPrincipalName + "auth--------" + auth);
-		roles=userRepository.getUserRoles(currentPrincipalName);
-		System.out.println("roles---" + roles);
-		return roles;
-	}
+//	@RequestMapping("/roles")
+//	public List<Role> roles() {
+//		System.out.println("roles.............");
+//		List<Role> roles=new ArrayList<Role>();
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String currentPrincipalName = authentication.getName();
+//		String auth =  (String) authentication.getPrincipal();
+//		System.out.println("currentPrincipalName---" + currentPrincipalName + "auth--------" + auth);
+//		roles=userRepository.getUserRoles(currentPrincipalName);
+//		System.out.println("roles---" + roles);
+//		return roles;
+//	}
 	
 	@RequestMapping("/login")
 	public void login() {

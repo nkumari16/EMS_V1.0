@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,7 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * The persistent class for the user database table.
@@ -35,9 +35,20 @@ public class User implements Serializable {
 
 	private int mobile;
 
-	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "roleId", referencedColumnName = "roleId")
-	private Role role;
+//	@OneToOne(cascade = {CascadeType.ALL})
+//	@JoinColumn(name = "roleId", referencedColumnName = "roleId")
+//	private Role role;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<Role> roles;
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
 	private String username;
 
@@ -99,14 +110,7 @@ public class User implements Serializable {
 		this.department = department;
 	}
 
-	public Role getRole() {
-		return role;
-	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
-	
 	
 
 }

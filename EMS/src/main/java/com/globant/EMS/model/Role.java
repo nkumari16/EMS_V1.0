@@ -1,9 +1,10 @@
 package com.globant.EMS.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Role {
@@ -11,10 +12,20 @@ public class Role {
 	@Id
 	private int roleId;
 	
-//	@OneToOne
-//	@JoinColumn(name = "userId", referencedColumnName = "userId")
-//	private User userId;
-	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "user_id")
+	private User user;
+	public Role() {
+		
+	}
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	private String roleName;
 
 	public int getRoleId() {

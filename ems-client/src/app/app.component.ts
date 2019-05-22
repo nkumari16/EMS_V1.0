@@ -18,7 +18,7 @@ export class AppComponent {
   constructor(public dataService: ApiService,private http: HttpClient) { } 
   ngOnInit() { console.log(`AppComponent OnInit`);
    this.getUser();
-   this.getRoles();
+  //  this.getRoles();
   }
    getUser() {
 		this.http.get('/server/user').subscribe(user => {
@@ -26,13 +26,13 @@ export class AppComponent {
 			console.log('Logged User in app: ', JSON.stringify(this.user));
 		})
   };
-  getRoles() {
-		this.http.get('/server/roles').subscribe(roles => {
-      console.log('User Roles in app1: ', isArray(this.roles),this.roles);
-			this.roles.push(roles[0]);
-			console.log('User Roles in app: ', isArray(this.roles),this.roles);
-		})
-	};
+  // getRoles() {
+	// 	this.http.get('/server/roles').subscribe(roles => {
+  //     console.log('User Roles in app1: ', isArray(this.roles),this.roles);
+	// 		this.roles.push(roles[0]);
+	// 		console.log('User Roles in app: ', isArray(this.roles),this.roles);
+	// 	})
+	// };
  myFunct(){
   // this.http.get('/server/').subscribe(user => {
   //   this.user = user;

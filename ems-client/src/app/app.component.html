@@ -5,10 +5,10 @@
       <div class="col-md-10" *ngIf='user'>
         <a routerLink="/" class="logo">EMS</a>
         <nav>
-          <ul>
+          <ul *ngFor="let item of user.authorities">
             <li><a routerLink="/">Home</a></li>
-            <li><a routerLink="/admin" *ngIf='roles.indexOf("Admin") !== -1'>Admin</a></li>
-            <li><a routerLink="/employee">Employee</a></li>
+            <li ><a routerLink="/admin" *ngIf="item.authority ==='Admin'"> Admin</a></li>
+            <li ><a routerLink="/employee" *ngIf="item.authority ==='Employee'">Employee</a></li>
           </ul>
         </nav>
     </div>
