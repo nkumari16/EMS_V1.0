@@ -5,14 +5,13 @@ package com.globant.EMS.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -24,7 +23,6 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
@@ -52,9 +50,14 @@ public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 	// We can specify how the user details are kept in the application. It may
 	// be in a database, LDAP or in memory.
 	@Override
+	//@Order(Ordered.HIGHEST_PRECEDENCE)
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		super.configure(auth);
-	}
+		/*
+		 * auth .inMemoryAuthentication()
+		 * .withUser("user").password("user").roles("USER").and()
+		 * .withUser("admin").password("admin").roles("ADMIN","REPORT");
+		 */}
 
 	// This method is for overriding some configuration of the WebSecurity
 	// If you want to ignore some request or request patterns then you can
@@ -88,32 +91,53 @@ public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		return oAuth2Filter;
 	}
-
 	// This method is used for override HttpSecurity of the web Application.
 	// We can specify our authorization criteria inside this method.
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+			http
+        	   .authorizeRequests()
+	           .antMatchers("/static","/register").permitAll()
+	           //.antMatchers("/admin/**").hasRole("mayuri")
+	           .antMatchers("/admin/**").access("hasRole('mayuri')")
+	            
+	//           .antMatchers("/admin/**").access("hasRole('ADMIN') and hasIpAddress('123.123.123.123')") // pass SPEL using access method
+	           .anyRequest().authenticated()
+	       .and()
+	       		.exceptionHandling().accessDeniedPage("/error/403")
+           .and()
+		       .formLogin()
+		       .loginPage("/login")
+		       .permitAll()
+			.and()
+		        .logout()
+		        .permitAll();
+		
+		
 
-		http
+//		http.httpBasic().and()
 		//.cors().and()
 				// starts authorizing configurations
-				.authorizeRequests()
+//				.authorizeRequests()
+//				.antMatchers(HttpMethod.GET, "/admin").hasRole("Admin") 
 				// ignore the "/" and "/index.html"
-				.antMatchers("/", "/**.html", "/**.js").permitAll()
+//				.antMatchers("/", "/**.html", "/**.js").permitAll()
 				// authenticate all remaining URLS
-				.anyRequest().fullyAuthenticated()//
-				.and()//
+//				.anyRequest().fullyAuthenticated()//
+//				.and()//
 				// setting the logout URL "/logout" - default logout URL
-				.logout()//
+//				.logout()//
 				// after successful logout the application will redirect to "/"
 				// path
-				.logoutSuccessUrl("/")//
-				.permitAll()//
-				.and()//
+//				.logoutSuccessUrl("/")//
+//				.permitAll()//
+//				.and()//
 				// Setting the filter for the URL "/google/login"
-				.addFilterAt(filter(), BasicAuthenticationFilter.class)//
-				.csrf()//
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+//				.addFilterAt(filter(), BasicAuthenticationFilter.class)//
+//				.and()
+//				.csrf()//
+//				.disable();
+//				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 
 	@Bean
