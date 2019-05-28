@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: yogesh.patil
+Build-Jdk: 12.0.1
+Implementation-Title: ems-leave-services
+Implementation-Version: 1.0-SNAPSHOT
+Implementation-Vendor-Id: com.ems.leave
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/ems-leave-services
+Created-By: Maven Integration for Eclipse
+
