@@ -1,70 +1,8 @@
-<header>
-  <div class="container">
-      <div class="row" style="text-align: center" > <h1 *ngIf='user'> Hi,  {{user.userAuthentication.details.name}}</h1>
-      </div>
-    <div class="row">
-      <div class="col-md-10" *ngIf='user'>
-        <a routerLink="/" class="logo">Home</a>
-        <!-- <nav>
-          <ul>
-            <li ><a routerLink="/admin" *ngIf="roles.indexOf('Admin') > -1"> Admin</a></li>
-            <li ><a routerLink="/employee" *ngIf="roles.indexOf('Employee') > -1">Employee</a></li>
-          </ul>
-        </nav> -->
-        <nav mat-tab-nav-bar *ngIf="navLinks?.length">
-            <span *ngFor="let link of navLinks">
-              <a mat-tab-link
-              *ngIf="roles.indexOf(link.label) > -1"
-            [routerLink]="link.link"
-            routerLinkActive #rla="routerLinkActive"
-            [active]="rla.isActive">
-            {{link.label}}
-            </a>
-            </span>
-        </nav>
-    </div>
-    <div class="col-md-2" *ngIf='!user'>
-        <h2> <button mat-raised-button color="secondary" (click)="myFunct()" type="button">Login</button></h2>
-      </div>
-  </div>
-  </div>
-</header>
-<!-- <mat-tab-group>
-  <mat-tab label = "Home" > Home </mat-tab>
-  <mat-tab label = "Admin" *ngIf="roles.indexOf('Admin') > -1" routerLink="/admin"> Admin </mat-tab>
-  <mat-tab label = "Employee" *ngIf="roles.indexOf('Employee') > -1"> Employee </mat-tab>
-</mat-tab-group> -->
+<!-- header -->
+<app-header></app-header>
 
-
-<!-- <nav mat-tab-nav-bar>
-    <a mat-tab-link
-    [routerLink]="home"
-    routerLinkActive #rla="routerLinkActive"
-    [active]="rla.isActive" > Home
-    </a>
-
-  <a mat-tab-link
-  [routerLink]="admin"
-  routerLinkActive #rla="routerLinkActive"
-  [active]="rla.isActive" *ngIf="roles.indexOf('Admin') > -1"> Admin
-  </a>
-
-  <a mat-tab-link
-  [routerLink]="employee"
-  routerLinkActive #rla="routerLinkActive"
-  [active]="rla.isActive" *ngIf="roles.indexOf('Employee') > -1"> Employee
-  </a>
-  
-  </nav> -->
-  
-<!-- <ul  *ngIf='!user'>
-  <li>
-    <h2> <button mat-raised-button color="secondary" (click)="myFunct()" type="button">Login</button></h2>
-  </li>
-</ul> -->
-
-
-
-
-
+<!-- routes will be rendered here -->
 <router-outlet></router-outlet>
+
+<!-- footer -->
+<app-footer></app-footer>

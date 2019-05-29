@@ -9,6 +9,10 @@ const routes: Routes = [
   // { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
+    component: LoginComponent
+  },
+  {
+    path: 'home',
     component: HomeComponent
   },
   {
@@ -18,10 +22,6 @@ const routes: Routes = [
   {
     path: 'employee',
     component: EmployeeComponent
-  },
-  {
-    path: 'login',
-    component: LoginComponent
   }
 ];
 

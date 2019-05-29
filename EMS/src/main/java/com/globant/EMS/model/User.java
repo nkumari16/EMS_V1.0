@@ -39,7 +39,7 @@ public class User implements Serializable {
 //	@JoinColumn(name = "roleId", referencedColumnName = "roleId")
 //	private Role role;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user",targetEntity = com.globant.EMS.model.Role.class)
 	private List<Role> roles;
 
 	public List<Role> getRoles() {

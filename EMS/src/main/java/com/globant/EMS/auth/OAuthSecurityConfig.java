@@ -5,14 +5,17 @@ package com.globant.EMS.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,8 +26,9 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * Modifying or overriding the default spring boot security.
@@ -35,9 +39,29 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Configurable
 //@Configuration
 @EnableWebSecurity
-//@EnableOAuth2Sso
 @Order
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
+//	@Bean
+//    CORSFilter corsFilter() {
+//		CORSFilter filter = new CORSFilter();
+//        return filter;
+//    }
+//	@Value("${security.enable-csrf}")
+//    private boolean csrfEnabled;
+	  @Bean
+	  public FilterRegistrationBean corsFilter() {
+	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    CorsConfiguration config = new CorsConfiguration();
+	    config.setAllowCredentials(true);
+	    config.addAllowedOrigin("http://localhost:4200"); // @Value: http://localhost:8080
+	    config.addAllowedHeader("*");
+	    config.addAllowedMethod("*");
+	    source.registerCorsConfiguration("/**", config);
+	    FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+	    bean.setOrder(0);
+	    return bean;
+	  }
 
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
@@ -95,24 +119,20 @@ public class OAuthSecurityConfig extends WebSecurityConfigurerAdapter {
 	// We can specify our authorization criteria inside this method.
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-			http
-        	   .authorizeRequests()
-	           .antMatchers("/static","/register").permitAll()
-	           //.antMatchers("/admin/**").hasRole("mayuri")
-	           .antMatchers("/admin/**").access("hasRole('mayuri')")
-	            
-	//           .antMatchers("/admin/**").access("hasRole('ADMIN') and hasIpAddress('123.123.123.123')") // pass SPEL using access method
-	           .anyRequest().authenticated()
-	       .and()
-	       		.exceptionHandling().accessDeniedPage("/error/403")
-           .and()
-		       .formLogin()
-		       .loginPage("/login")
-		       .permitAll()
-			.and()
-		        .logout()
-		        .permitAll();
+//			http
+//        	   .authorizeRequests()
+//	           .antMatchers("/admin/**").access("hasRole('Admin')");
 		
+//	    http.csrf().disable();
+		
+//		http
+//        .addFilterBefore(corsFilter(), SessionManagementFilter.class) //adds your custom CorsFilter
+//        .csrf().disable()
+//        .anonymous().disable();
+		
+//		http
+//        .authorizeRequests()
+//        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 		
 
 //		http.httpBasic().and()

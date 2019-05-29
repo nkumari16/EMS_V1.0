@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,12 @@ import com.globant.EMS.model.Role;
  */
 @RestController
 //@CrossOrigin(origins = "http://localhost:4200")
+@PreAuthorize("hasAuthority('Admin')")
 public class AdminController {
 	@RequestMapping("/admin")
 	public Role admin(HttpServletRequest request) {
 //		request.isUserInRole("someAuthority");
-		hasRole("Admin");
-		System.out.println("admin............."+hasRole("Admin")+ " "+request.isUserInRole("Admin"));
+		System.out.println("ADMIN............."+hasRole("ROLE_ADMIN")+ " "+request.isUserInRole("ADMIN"));
 		Role r=new Role();
 		r.setRoleId(55);
 		return r;

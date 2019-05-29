@@ -11,7 +11,11 @@ import { NavComponent } from './nav/nav.component';
 import { AdminComponent } from './admin/admin.component';
 import { HomeComponent } from './home/home.component';
 import { EmployeeComponent } from './employee/employee.component';
-import {MatTabsModule} from '@angular/material'
+import {MatTabsModule,MatButtonModule,MatToolbarModule,MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
+ MatMenuModule,MatIconModule, MatProgressSpinnerModule} from '@angular/material'
+ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +24,25 @@ import {MatTabsModule} from '@angular/material'
     NavComponent,
     AdminComponent,
     HomeComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MatTabsModule
+    MatTabsModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatCardModule, 
+    MatInputModule, 
+    MatDialogModule, 
+    MatTableModule, 
+    MatMenuModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

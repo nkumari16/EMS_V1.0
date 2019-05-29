@@ -17,6 +17,14 @@ this.getUser()}
 			this.user = user;
 			console.log('Logged User : ', this.user);
 		})
-	};
+  };
+  
+  login(){
+    // this.http.get('/server/').subscribe(user => {
+    //   this.user = user;
+    //   console.log('Logged User : ', this.user);
+    // })
+    window.location.href='http://localhost:8080/'
+  }
 
 }
